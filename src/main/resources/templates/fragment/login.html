@@ -1,0 +1,19 @@
+<form class="w3-container" name="f" th:action="@{/j_spring_security_check}" method="POST"
+      xmlns:th="https://www.thymeleaf.org">
+    <p>
+        <label>Email address</label>
+        <input class="w3-input" type="text" name="username" value=""/>
+    </p>
+    <p>
+        <label>Password</label>
+        <input class="w3-input" type="password" name="password"/>
+    </p>
+    <br th:if="${session[SPRING_SECURITY_LAST_EXCEPTION] == null}"/>
+    <div id="errorDiv" class="w3-panel w3-pale-red w3-round w3-text-red w3-padding-16"
+         th:unless="${session[SPRING_SECURITY_LAST_EXCEPTION] == null}"
+         th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">
+        Error
+    </div>
+    <input class="w3-button w3-blue-gray w3-block w3-section w3-blue w3-ripple w3-padding"
+           name="submit" type="submit" value="LOGIN"/>
+</form>

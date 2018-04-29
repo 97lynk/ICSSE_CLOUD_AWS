@@ -1,0 +1,123 @@
+<div xmlns:th="https://www.thymeleaf.org">
+
+    <!--image show silde-->
+    <div class="w3-row w3-display-container">
+        <!--list image-->
+        <img class="mySlides"
+             src="http://icsse2017.hcmute.edu.vn/Resources/imagesPortlet/e28a24d5-befe-4213-a3d5-2e1ebcb2a71e/HNQT1.jpg"
+             style="width:100%"/>
+        <img class="mySlides"
+             src="http://icsse2017.hcmute.edu.vn/Resources/imagesPortlet/e28a24d5-befe-4213-a3d5-2e1ebcb2a71e/HNQT2.jpg"
+             style="width:100%"/>
+        <img class="mySlides"
+             src="http://icsse2017.hcmute.edu.vn/Resources/imagesPortlet/e28a24d5-befe-4213-a3d5-2e1ebcb2a71e/HNQT3.jpg"
+             style="width:100%"/>
+        <!--box search-->
+        <div class="w3-display-topright">
+            <div class="w3-cell-row">
+                <input type="text" class="w3-container w3-input w3-padding-16 w3-cell" placeholder="Search.."/>
+                <a href="#" class="w3-container w3-button w3-white w3-xlarge w3-cell"><i class="fa fa-search"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-row">
+        <!--Top menu bar-->
+        <div class="w3-bar w3-blue-grey w3-border-blue-grey">
+            <!--home-->
+            <a href="/" class="w3-bar-item w3-button w3-padding-16"
+               th:with="home=${NavMenu[0]}" th:href="'/' + ${home.news[0].url}" th:text="${home.type_name}"></a>
+
+            <!--about-->
+            <div class="w3-dropdown-hover">
+                <button class="w3-button w3-padding-16">ABOUT</button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a class="w3-bar-item w3-button w3-padding-16"
+                       th:each="m,i : ${NavMenu}" th:if="${1 <= i.index && i.index <= 3}"
+                       th:text="${m.type_name}" th:href="'/' + ${m.news[0].url}"></a>
+                </div>
+            </div>
+
+            <!--for author-->
+            <div class="w3-dropdown-hover">
+                <button class="w3-button w3-padding-16">FOR AUTHOR</button>
+                <div class="w3-dropdown-content w3-bar-block w3-card-4">
+                    <a class="w3-bar-item w3-button w3-padding-16"
+                       th:each="m,i : ${NavMenu}" th:if="${4 <= i.index && i.index <= 6}"
+                       th:text="${m.type_name}" th:href="'/' + ${m.news[0].url}"></a>
+                </div>
+            </div>
+
+            <!--another-->
+            <a class="w3-bar-item w3-button w3-padding-16"
+               th:each="m,i : ${NavMenu}" th:unless="${i.index < 7}"
+               th:href="'/' + ${m.news[0].url}" th:text="${m.type_name}"></a>
+
+            <!--login button-->
+            <span th:if="${user == null}" id="loginButton"
+                  class="w3-bar-item w3-button w3-dark-gray w3-padding-16">LOGIN</span>
+            <span th:unless="${user == null}" class="w3-bar-item w3-dark-gray w3-padding-16">
+                <span th:text="'Hello! ' + ${user.firstName} + ' ' + ${user.lastName}"></span>
+                <a class="w3-text-blue" href="/u/logout">LOGOUT</a>
+            </span>
+        </div>
+
+        <!--login dialog-->
+        <div id="id01" class="w3-modal">
+            <div class="w3-modal-content w3-animate-top w3-card-4" style="max-width: 500px;">
+                <header class="w3-container w3-light-gray">
+                    <span id="closeButton" class="w3-button w3-display-topright ">&times;</span>
+                    <h2 class="w3-text-blue-gray">LOGIN FOR ADMIN</h2>
+                </header>
+                <div class="w3-container" id="loginPage">
+                    <!--<th:block th:include="/fragment/login"/>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var myIndex = 0;
+        carousel();
+
+        function carousel() {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            myIndex++;
+            if (myIndex > x.length) {
+                myIndex = 1
+            }
+            x[myIndex - 1].style.display = "block";
+            setTimeout(carousel, 4000); // Change image every 2 seconds
+        }
+
+        function loadLoginForm(showError) {
+            $.get('/u/login?ajax=true', function (data) {
+                $('#loginPage').html(data);
+                $('#id01').show();
+                if (showError == true)
+                    $('#errorDiv').show();
+                else
+                    $('#errorDiv').hide();
+            });
+        }
+
+        $('#loginButton').click(function () {
+            loadLoginForm(false);
+        });
+
+        $('#closeButton').click(function () {
+            $('#id01').hide();
+        })
+
+        var url = new URL(window.location.href);
+        var error = url.searchParams.get('error');
+        // console.log('url: '+ url);
+        // console.log('error: '+ error);
+        if (error != null && error == 'true') {
+            loadLoginForm(true);
+        }
+    </script>
+</div>

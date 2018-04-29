@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="icsse-cloud" />
+        <module name="ICSSE_CLOUD" />
+        <module name="SendMail" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="icsse-cloud" target="1.8" />
+      <module name="ICSSE_CLOUD" target="1.8" />
+      <module name="registration-and-login" target="1.8" />
+      <module name="RegistrationLogin" target="1.8" />
+      <module name="send-mail" target="1.8" />
+      <module name="SendMail" target="1.8" />
+      <module name="spring-drive" target="1.8" />
+      <module name="springdrive" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

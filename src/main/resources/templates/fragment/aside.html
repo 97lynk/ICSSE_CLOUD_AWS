@@ -1,0 +1,36 @@
+<br/>
+<div  xmlns:th="https://www.thymeleaf.org" class="w3-rest w3-border">
+    <ul class="w3-ul">
+        <li class="w3-gray w3-padding-16 w3-text-white"><h2>Lastest News</h2></li>
+        <!--write a news button-->
+        <li th:unless="${user == null}" class="w3-text-green w3-hover-light-gray w3-center">
+            <span class="w3-xlarge">
+                <i class="fa fa-plus-square"></i>
+                <a href="/news/add">Add news</a>
+            </span>
+        </li>
+        <!--list news-->
+        <li th:each="n, i : ${news}" th:unless="${i.index} >= 5" >
+            <a class="w3-text-teal w3-hover-text-gray" th:href="'/news/' + ${n.id}" th:text="${n.title}"></a>
+            <span class="w3-text-gray" th:text="${#calendars.format(n.createDate,'HH:mm - dd/MM/yyyy')}"></span>
+            <p th:text="(${#strings.length(n.content)} > 200) ? ${#strings.substring(n.content,0,200)} : ${n.content}"></p>
+            <p class="w3-right-align" th:unless="${user == null}">
+                <a class="w3-button w3-text-teal w3-border" th:href="'/news/edit/' + ${n.id}"><i
+                        class="fa fa-pencil"></i></a>
+                <span class="w3-button w3-text-red w3-border" th:onclick="'deleteNews(' + ${n.id} + ')'"><i
+                        class="fa fa-close"></i></span>
+            </p>
+            <script>
+                function deleteNews(id) {
+                    if (confirm("Do you want to delete this news?")) {
+                        $.post('/news/delete/' + id, function (data, status) {
+                            console.log(status);
+                            if (status == 'success')
+                                location.reload();
+                        });
+                    }
+                }
+            </script>
+        </li>
+    </ul>
+</div>

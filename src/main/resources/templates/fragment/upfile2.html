@@ -1,0 +1,77 @@
+<section class="w3-container w3-margin" th:if="${session[access_token] == null && user != null}" style="padding: 20px">
+    <button class="w3-button w3-green" data-demo-no-js=""
+            onclick="window.open('/drive/auth', '_self')">
+        <i class="material-icons" style="vertical-align:middle;">account_circle</i>
+        Đăng nhập Google
+    </button>
+</section>
+<br/>
+<section class="w3-container w3-row w3-light-gray">
+    <div class="w3-third w3-container">
+        <div class="w3-container" th:unless="${driveUser == null}" th:object="${driveUser}">
+            <h3>Thông tin</h3>
+            <span class="w3-container w3-cell"><img th:src="*{picture.url}"/></span>
+            <span class="w3-container w3-cell">
+                                <div th:text="*{displayName}"></div>
+                                <div th:text="*{emailAddress}">Secondary text</div>
+                            </span>
+        </div>
+        <div class="w3-container" th:unless="${session[access_token] == null}" style="padding: 20px">
+            <h3>Tải lên</h3>
+            <form action="/drive/up" method="POST" enctype="multipart/form-data">
+                <input type="file" accept="image/*" style="display: none;" name="file" id="file" required="true"
+                       class="inputfile" data-multiple-caption="{count} files selected"/>
+                <label for="file" class="w3-button w3-white w3-border w3-border-green w3-hover-pale-green"
+                       style="vertical-align:middle;">
+                    <i class="material-icons" style="vertical-align:middle;">backup</i>
+                    <span>Choose a file…</span></label>
+                <input type="submit" value="UPLOAD"
+                       class="w3-button w3-green"/>
+            </form>
+        </div>
+    </div>
+    <div class="w3-twothird">
+        <div th:unless="${files == null}">
+            <ul class="w3-ul">
+                <li class="w3-row">
+                    <div class="w3-half"><b>Name</b></div>
+                    <div class="w3-half"><b>URL</b></div>
+                </li>
+                <li class="w3-row"
+                    th:each="f, i: ${files}" th:unless="${i.index >= 5}">
+                    <div class="w3-half" th:text="*{f.title}" th:unless="*{f.title} == null"></div>
+                    <div class="w3-half">
+                        <input type="text" th:value="*{f.webContentLink}" th:id="*{f.id}">
+                        <div class="tooltip">
+                            <button class="w3-button w3-green" th:onclick="'myFunction(\'' + *{f.id} + '\')'"
+                                    onmouseout="$('#myTooltip').html('Copy to clipboard')">
+                                <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+                                Copy URL
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <script>
+                function myFunction(id) {
+                    /* Get the text field */
+                    var copyText = $('#' + id);
+
+                    /* Select the text field */
+                    copyText.select();
+
+                    /* Copy the text inside the text field */
+                    document.execCommand('Copy');
+
+                    /* Alert the copied text */
+                    // alert('Copied URL');
+
+                    $('#myTooltip').html('Copied URL');
+                }
+            </script>
+        </div>
+    </div>
+</section>
+
+
+<script src="/js/custom-file-input.js"></script>

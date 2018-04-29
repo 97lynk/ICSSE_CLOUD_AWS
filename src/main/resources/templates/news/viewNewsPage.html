@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="fragment/headtag"/>
+<body>
+<th:block th:include="fragment/header"/>
+<div class="body">
+    <div class="w3-row-padding">
+        <div class="w3-threequarter">
+            <br/>
+            <div class="w3-container w3-border w3-display-container">
+                <div th:unless="${anews} == null">
+
+                    <div class=" w3-display-topright" th:unless="${user == null}">
+                        <a class="w3-button w3-text-teal w3-border" th:href="'/news/edit/' + ${anews.id}"><i
+                                class="fa fa-pencil"></i></a>
+                        <span class="w3-button w3-text-red w3-border" th:onclick="'deleteNews(' + ${anews.id} + ')'"><i
+                                class="fa fa-close"></i></span>
+                    </div>
+
+                    <div class="w3-container">
+                        <h2 th:text="${anews.title}"></h2>
+                        <p><i th:text="${#calendars.format(anews.createDate,'HH:mm - dd/MM/yyyy')}"></i></p>
+                    </div>
+                    <hr/>
+
+                    <div class="w3-container">
+                        <p th:utext="${anews.content}">content</p>
+                    </div>
+
+                </div>
+                <h2 class="w3-center" th:if="${anews} == null">This page is empty!</h2>
+            </div>
+        </div>
+        <th:block th:include="fragment/aside"/>
+    </div>
+</div>
+<th:block th:include="fragment/footer"/>
+</body>
+</html>

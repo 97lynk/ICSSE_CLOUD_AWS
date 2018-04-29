@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:include="fragment/headtag"/>
+<body>
+<th:block th:include="fragment/header"/>
+<div class="body">
+    <div class="w3-row-padding">
+        <div class="w3-threequarter">
+            <br/>
+            <div class="w3-container w3-display-container w3-border">
+
+                <div class="w3-display-topright">
+                    <button id="save" form="newsPage" class="w3-button w3-teal">
+                        <i class="fa fa-save"></i> Save change
+                    </button>
+                    <button onclick="window.history.back();" class="w3-button w3-red">
+                        <i class="fa fa-close"></i> Cancel
+                    </button>
+                </div>
+
+                <div class="w3-container w3-padding">
+                    <h2>Write a news</h2>
+                </div>
+                <script src="https://cdn.ckeditor.com/4.9.0/standard/ckeditor.js"></script>
+                <form class="w3-container" method="post" id="newsPage">
+                    <p>
+                        <label>Title</label>
+                        <input class="w3-input" name="title" id="title"/>
+                    </p>
+                    <p>
+                        <label>Content</label>
+                        <textarea name="content" id="content" rows="10" cols="80"></textarea>
+                    </p>
+                    <script>
+                        // Replace the <textarea id="editor1"> with a CKEditor
+                        // instance, using default configuration.
+                        CKEDITOR.replace('content');
+                        CKEDITOR.config.height = 500;
+
+                    </script>
+                </form>
+            </div>
+        </div>
+        <th:block th:include="fragment/aside"/>
+    </div>
+</div>
+<th:block th:include="fragment/footer"/>
+</body>
+</html>

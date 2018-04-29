@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+    <!-- Bootstrap core CSS-->
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/css/bootstrap.css"/>
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" href="/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <!-- Custom styles for this template-->
+    <link rel="stylesheet" href="/assets/css/sb-admin.min.css">
+</head>
+
+<body class="bg-dark">
+
+<div class="card card-login mx-auto mt-5">
+
+    <div class="card-header">
+        <h2 th:text="#{label.signin.title}">Login</h2>
+    </div>
+    <div class="card-body">
+        <form name="f" th:action="@{/j_spring_security_check}" method="POST">
+            <div class="form-group">
+                <label th:text="#{label.user.email}">Email</label>
+                <input class="form-control" type="text" name="username" value=""/>
+            </div>
+
+            <div class="form-group">
+                <label th:text="#{label.user.password}">Password</label>
+                <!--(<a th:href="@{/u/resetPassword}" th:text="#{label.forgotPass}">Forgot Password?</a>)-->
+                <input class="form-control" type="password" name="password"/>
+            </div>
+
+            <br th:if="${param.error == null and session[SPRING_SECURITY_LAST_EXCEPTION] == null}"/>
+            <div class="alert alert-danger"
+                 th:unless="${param.error == null || session[SPRING_SECURITY_LAST_EXCEPTION] == null}"
+                 th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">
+                Static summary
+            </div>
+            <input class="btn btn-primary btn-block" name="submit" type="submit" th:value="#{label.signin.submit}"/>
+        </form>
+    </div>
+
+</div>
+
+</body>
+
+</html>
